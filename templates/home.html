@@ -1,90 +1,136 @@
 {% load static %} 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-  <title>Responsive Sidebar</title>
- 
-  <link rel="stylesheet" href="{% static 'css/style.css' %}">
-  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tableau de Bord - Mediocca</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
-  <div class="sidebar">
-    <div class="logo_details">
-      <i class="bx bxl-audible icon"></i>
-      <div class="logo_name">MediScan AI</div>
-      <i class="bx bx-menu" id="btn"></i>
-    </div>
-    <ul class="nav-list">
-      <li>
-        <i class="bx bx-search"></i>
-        <input type="text" placeholder="Search...">
-         <span class="tooltip">Search</span>
-      </li>
-      <li>
-        <a href="#">
-          <i class="bx bx-grid-alt"></i>
-          <span class="link_name">Dashboard</span>
-        </a>
-        <span class="tooltip">Dashboard</span>
-      </li>
-      <li>
-        <a href="#">
-          <i class="bx bx-user"></i>
-          <span class="link_name">Analyse</span>
-        </a>
-        <span class="tooltip">Analyse</span>
-      </li>
-      <li>
-        <a href="#">
-          <i class="bx bx-chat"></i>
-          <span class="link_name">Gestion des Patients</span>
-        </a>
-        <span class="tooltip">Gestion des Patients</span>
-      </li>
-      <li>
-        <a href="#">
-          <i class="bx bx-pie-chart-alt-2"></i>
-          <span class="link_name">Rapports Médicaux</span>
-        </a>
-        <span class="tooltip">Rapports Médicaux</span>
-      </li>
-      <li>
-        <a href="#">
-          <i class="bx bx-folder"></i>
-          <span class="link_name">Statistiques </span>
-        </a>
-        <span class="tooltip">Statistiques </span>
-      </li>
-      <li>
-        <a href="#">
-          <i class="bx bx-cart-alt"></i>
-          <span class="link_name">Médecins/Laborantins</span>
-        </a>
-        <span class="tooltip">Médecins/Laborantins</span>
-      </li>
-      <li>
-        <a href="#">
-          <i class="bx bx-cog"></i>
-          <span class="link_name">Paramètres </span>
-        </a>
-        <span class="tooltip">Paramètres </span>
-      </li>
-      <li class="profile">
-        <div class="profile_details">
-          <img src="{% static 'images/attaque.jpg' %}" alt="profile image">
-          <div class="profile_content">
-            <div class="name">Dr Kabongo</div>
-            <div class="designation">Admin</div>
-          </div>
-        </div>
-        <i class="bx bx-log-out" id="log_out"></i>
-      </li>
+
+<div class="sidebar">
+    <div class="logo">MediScanAI</div>
+    <ul class="menu">
+        <li class="active"><i data-lucide="layout-dashboard"></i> Tableau de Bord</li>
+        <li><i data-lucide="users"></i> Patients</li>
+        <li><i data-lucide="shield-check"></i> Conformité</li>
+        <li><i data-lucide="calendar"></i> Rendez-vous</li>
+        <li><i data-lucide="credit-card"></i> Facturation</li>
+        <li><i data-lucide="repeat"></i> Transactions</li>
+        <li><i data-lucide="bar-chart-2"></i> Rapports</li>
+        <li><i data-lucide="share-2"></i> Interopérabilité</li>
     </ul>
-  </div>
-  <section class="home-section">
-    <div class="text">Dashboard</div>
-  </section>
-  <!-- Scripts -->
-  <script src="{% static 'js/script.js' %}"></script>
+    <div class="bottom-links">
+        <a href="#"><i data-lucide="settings"></i> Paramètres</a>
+        <a href="#"><i data-lucide="message-square"></i> Assistance</a>
+        <a href="#"><i data-lucide="help-circle"></i> Centre d'aide</a>
+    </div>
+    <div class="user-profile">
+        <img src="https://via.placeholder.com/60" alt="Utilisateur">
+        <p>Jenovic Kbg</p>
+        <span>jenovickbg5@gmail.com</span>
+    </div>
+</div>
+
+<div class="dashboard">
+    <header>
+        <h1>Bienvenue, Jenovic 👋</h1>
+        <div class="header-actions">
+            <button><i data-lucide="bell"></i></button>
+            <button><i data-lucide="user"></i></button>
+            <button class="create"><i data-lucide="plus"></i> Nouveau</button>
+        </div>
+    </header>
+
+    <section class="stats">
+        <div class="card">
+        
+            <h2 >Total des Patients</h2>
+            <p class="number">1072</p>
+            <span class="growth">+12% cette semaine</span>
+        </div>
+        <div class="card">
+            <h2>Total des Rendez-vous</h2>
+            <p class="number">197</p>
+            <span class="growth">+10% cette semaine</span>
+        </div>
+        <div class="card">
+            <h2>Revenu Total</h2>
+            <p class="number">$7 209.29</p>
+            <span class="growth">+24% cette semaine</span>
+        </div>
+        <div class="card">
+            <h2>Total des Traitements</h2>
+            <p class="number">234</p>
+            <span class="growth">+11% cette semaine</span>
+        </div>
+    </section>
+
+    <section class="chart-and-schedule">
+        <div class="chart">
+            <h3>Tendances Admissions & Sorties</h3>
+            <canvas id="admissionChart"></canvas>
+        </div>
+        <div class="doctor-schedule">
+            <h3>Planning des Médecins</h3>
+            <ul class="availability">
+                <li>Disponibles : 72</li>
+                <li>Indisponibles : 24</li>
+                <li>Congés : 16</li>
+            </ul>
+            <ul class="doctor-list">
+                <li>Omar Bergson <span class="status available">Disponible</span></li>
+                <li>Wilson Dias <span class="status unavailable">Indisponible</span></li>
+                <li>Arlene Cooper <span class="status available">Disponible</span></li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="patient-list">
+        <h3>Liste des Patients</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID Patient</th>
+                    <th>Nom</th>
+                    <th>Genre</th>
+                    <th>Âge</th>
+                    <th>Date</th>
+                    <th>Département</th>
+                    <th>Diagnostic Principal</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>#GS234FS</td>
+                    <td>Marley Franci</td>
+                    <td>Homme</td>
+                    <td>27 ans</td>
+                    <td>28-Nov-2024</td>
+                    <td>Chirurgie Générale</td>
+                    <td>Appendicite</td>
+                </tr>
+                <tr>
+                    <td>#CO182SD</td>
+                    <td>Ashlynn Torff</td>
+                    <td>Femme</td>
+                    <td>26 ans</td>
+                    <td>28-Nov-2024</td>
+                    <td>Cardiologie</td>
+                    <td>Maladie coronaire</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+</div>
+
+<script src="{% static 'js/script.js' %}"></script>
+<script>
+    lucide.createIcons();
+</script>
+
 </body>
 </html>
