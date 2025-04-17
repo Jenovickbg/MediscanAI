@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload d'Image</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 20px;
+        }
+        form {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            margin: auto;
+        }
+        .success-message {
+            display: none;
+            color: #fff;
+            background: #4CAF50;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Uploader un frottis sanguin</h2>
+    
+    <form id="uploadForm">
+        {% csrf_token %}
+        <input type="text" name="patient_id" placeholder="ID du patient" required><br><br>
+        <input type="file" name="image" accept="image/*" required><br><br>
+        <button type="submit">Envoyer</button>
+    </form>
+
+    <div class="success-message" id="successMessage">Image uploadée avec succès ! ✅</div>
+
+    <script>
+        document.getElementById("uploadForm").addEventListener("submit", function(event) {
+            event.preventDefault();  // Empêcher le rechargement de la page
+            
+            let formData = new FormData(this);  // Récupérer les données du formulaire
+            
+            fetch("{% url 'upload_blood_smear' %}", {  
+                method: "POST",
+                body: formData,
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById("successMessage").style.display = "block";  
+                    setTimeout(() => {
+                        document.getElementById("successMessage").style.display = "none";
+                    }, 3000);
+                } else {
+                    alert("Erreur lors de l'upload !");
+                }
+            })
+            .catch(error => console.error("Erreur :", error));
+        });
+    </script>
+
+</body>
+</html>
+ 3344

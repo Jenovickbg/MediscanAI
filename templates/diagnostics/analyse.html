@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Analyse de Frottis Sanguin</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f1f1f1;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            max-width: 600px;
+            margin: auto;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #004488;
+        }
+        .btn {
+            background-color: #004488;
+            color: white;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        .btn:hover {
+            background-color: #0066aa;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background: #eef;
+            border-left: 5px solid #004488;
+        }
+        .btn-secondary {
+            background-color: gray;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Analyse de Frottis Sanguin</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="btn" type="submit">Analyser</button>
+           
+        </form>
+
+        {% if prediction %}
+            <div class="result">
+                <h3>Résultat pour le patient : {{ patient_id }}</h3>
+                <p><strong>{{ prediction }}</strong></p>
+            </div>
+        {% endif %}
+        <h2>Interprétation par ChatGPT</h2>
+
+
+{% if interpretation %}
+    <h3>Interprétation par ChatGPT</h3>
+    <p>{{ interpretation }}</p>
+{% endif %}
+
+    </div>
+</body>
+</html>

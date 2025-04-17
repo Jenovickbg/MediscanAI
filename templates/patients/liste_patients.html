@@ -1,0 +1,99 @@
+<!-- patients/templates/patients/liste_patients.html -->
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des Patients</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        .container {
+            width: 80%;
+            margin: 20px auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+        }
+        .btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Liste des Patients</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Age</th>
+                    <th>Sexe</th>
+                    <th>Taille (cm)</th>
+                    <th>Poids (kg)</th>
+                    <th>Adresse</th>
+                    <th>Téléphone</th>
+                    <th>Photo</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for patient in patients %}
+                <tr>
+                    <td>{{ patient.nom }}</td>
+                    <td>{{ patient.prenom }}</td>
+                    <td>{{ patient.age }}</td>
+                    <td>{{ patient.get_sexe_display }}</td>
+                    <td>{{ patient.taille }}</td>
+                    <td>{{ patient.poids }}</td>
+                    <td>{{ patient.adresse }}</td>
+                    <td>{{ patient.telephone }}</td>
+                    <td><img src="{{ patient.photo.url }}" alt="Photo de {{ patient.nom }}"></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <a href="{% url 'patients:enregistrer_patient' %}" class="btn">Enregistrer un nouveau patient</a>
+    </div>
+</body>
+</html>
