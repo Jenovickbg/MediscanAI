@@ -1,30 +1,34 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/Zh-HM8QW)
 [![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-2e0aaae1b6195c2367325f4f02e2d04e9abb55f0b24a779b69b11b9e10269abc.svg)](https://classroom.github.com/online_ide?assignment_repo_id=19858700&assignment_repo_type=AssignmentRepo)
-# 🎓 Projet de Fin d’Année – Titre du Projet
+# 🎓 Projet de Fin d’Année –  Développement d’un système de détection des micro-organismes à partir d’un prélèvement sanguin grâce au deep learning et analyse des résultats
 
-Bienvenue ! Ce dépôt a été généré automatiquement via GitHub Classroom pour la remise de votre projet de fin d’année **individuel**.
-
-> **Département** : [Aucun / Génie Informatique, Intelligence Artificielle, Systèmes Informatiques]  
-> **Filière** : [Aucune / Robotique / Data Science / Réseaux Informatiques / Ingénierie Logicielle / Sécurité Informatique] 
+> **Département** : [ Intelligence Artificielle]  
+> **Filière** : [ Data Science ] 
 > **Année académique** : 2024–2025  
-> **Encadrant** : Professeur ou Assistant [Nom de l’enseignant] / La Commission
+> **Encadrant** :  La Commission
 
 ---
 
 ## 📌 Objectif du projet
 
-Ce projet a pour but de [décrire l’objectif principal, par exemple : développer une application web/mobile pour gérer les réservations d’une bibliothèque universitaire].
+Ce projet a pour objectif de **concevoir et développer MediScan AI**, un système intelligent basé sur le deep learning permettant d’analyser les images de frottis sanguins pour :
+
+1. **Confirmer la validité d’un frottis sanguin** (filtrage automatique des images valides/non valides).  
+2. **Détecter la présence ou non du paludisme** et déterminer la classe (infecté ou non infecté) avec un **pourcentage d’assurance**.  
+3. Fournir une **interprétation médicale automatique** des résultats via l’intégration de ChatGPT pour générer un rapport interprétatif et des recommandations.
+
 
 ---
 
 ## 🛠️ Technologies utilisées
 
-- Langage principal : `Python` / `JavaScript` / `Java`
-- Framework : `Django` / `React` / `Laravel`, etc.
-- Base de données : `PostgreSQL` / `MongoDB`, etc.
-- Outils : `GitHub`, `Figma`, `Docker`, etc.
+- Langage principal : `Python`
+- Frameworks : `TensorFlow / Keras` (deep learning), `Django` (backend web)
+- Base de données : `MongoDb` (dev) / possibilité `PostgreSQL` (prod)
+- Outils : `GitHub`, `VSCode`
 
 ---
+
 
 ## 🚀 Etapes pour lancer le projet
 
@@ -33,7 +37,7 @@ Ce projet a pour but de [décrire l’objectif principal, par exemple : dévelop
 1. Cloner ce dépôt :
 
 ```bash
-   git clone https://github.com/organisation/nom-du-repo.git
+   git clone https://github.com/criagi-upc/projet-final-l3-Jenovickbg.git
    cd nom-du-repo
 ````
 
@@ -58,13 +62,15 @@ Ce projet a pour but de [décrire l’objectif principal, par exemple : dévelop
 
 ## 📁 Structure du projet
 
-```
-📦 nom-du-repo
-  ┣ 📂 project/                # Code source principal du projet
-  ┣ 📂 docs/                   # Documentation
-  ┃ ┗ 📄 cahier-de-charge.pdf  # Cahier des charges au format PDF
-  ┣ 📄 README.md               # Présentation du projet
-  ┗ 📄 .gitignore              # Fichier gitignore
+`📦 mediscan-ai
+ ┣ 📂 ml_model/                # Modèles entraînés (.keras)
+ ┣ 📂 diagnostics/            # Application Django (vues, forms, urls)
+ ┣ 📂 static/                 # Fichiers CSS, JS, images statiques
+ ┣ 📂 templates/              # Templates HTML
+ ┣ 📄 manage.py               # Commande principale Django
+ ┣ 📄 requirements.txt        # Dépendances Python
+ ┣ 📄 README.md               # Présentation du projet
+ ┗ 📄 .gitignore              # Fichier gitignore
 ```
 
 ---
