@@ -61,8 +61,9 @@ Ce projet a pour objectif de **concevoir et développer MediScan AI**, un systè
 ---
 
 ## 📁 Structure du projet
+
 ```
-`📦 mediscan-ai
+📦 mediscan-ai
  ┣ 📂 ml_model/                # Modèles entraînés (.keras)
  ┣ 📂 diagnostics/            # Application Django (vues, forms, urls)
  ┣ 📂 static/                 # Fichiers CSS, JS, images statiques
@@ -71,7 +72,7 @@ Ce projet a pour objectif de **concevoir et développer MediScan AI**, un systè
  ┣ 📄 requirements.txt        # Dépendances Python
  ┣ 📄 README.md               # Présentation du projet
  ┗ 📄 .gitignore              # Fichier gitignore
-
+```
 
 ---
 
