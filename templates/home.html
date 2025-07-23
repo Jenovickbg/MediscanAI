@@ -4,103 +4,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tableau de Bord - Mediocca</title>
+    <title>Tableau de Bord - MEDISCAN AI</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lucide@latest"></script>
 </head>
 <body>
-
-<div class="sidebar">
-    <div class="logo">MediScanAI</div>
-    <ul class="menu">
-        <li class="active"><i data-lucide="layout-dashboard"></i> Tableau de Bord</li>
-        <li><i data-lucide="users"></i> Patients</li>
-        <li><i data-lucide="shield-check"></i> Conformité</li>
-        <li><i data-lucide="calendar"></i> Rendez-vous</li>
-        <li><i data-lucide="credit-card"></i> Facturation</li>
-        <li><i data-lucide="repeat"></i> Transactions</li>
-        <li><i data-lucide="bar-chart-2"></i> Rapports</li>
-        <li><i data-lucide="share-2"></i> Interopérabilité</li>
-    </ul>
-    <div class="bottom-links">
-        <a href="#"><i data-lucide="settings"></i> Paramètres</a>
-        <a href="#"><i data-lucide="message-square"></i> Assistance</a>
-        <a href="#"><i data-lucide="help-circle"></i> Centre d'aide</a>
-    </div>
-    <div class="user-profile">
-        <img src="https://via.placeholder.com/60" alt="Utilisateur">
-        <p>Jenovic Kbg</p>
-        <span>jenovickbg5@gmail.com</span>
-    </div>
-</div>
-
+{% include 'sidebar.html' %}
 <div class="dashboard">
     <header>
-        <h1>Bienvenue, Jenovic 👋</h1>
+        <h1><i data-lucide="stethoscope"></i> Bienvenue sur MEDISCAN AI </h1>
         <div class="header-actions">
-            <button><i data-lucide="bell"></i></button>
-            <button><i data-lucide="user"></i></button>
-            <button class="create"><i data-lucide="plus"></i> Nouveau</button>
+            <a href="{% url 'diagnostics:analyse_frottis_sanguins' %}" class="button-primary"><i data-lucide="plus"></i> Nouvelle Analyse</a>
+            <a href="{% url 'patients:liste_patients' %}" class="button-secondary"><i data-lucide="user-plus"></i> Nouveau Patient</a>
         </div>
     </header>
-
+    <section class="alerts">
+        <div class="alert alert-danger">
+            <i data-lucide="alert-triangle"></i> 2 anomalies détectées aujourd'hui !
+        </div>
+        <div class="alert alert-success">
+            <i data-lucide="check-circle"></i> Aucun cas critique en attente.
+        </div>
+    </section>
     <section class="stats">
         <div class="card">
-        
-            <h2 >Total des Patients</h2>
+            <h2><i data-lucide="users"></i> Total Patients</h2>
             <p class="number">1072</p>
-            <span class="growth">+12% cette semaine</span>
+            <span class="growth positive"><i data-lucide="trending-up"></i> +12% cette semaine</span>
         </div>
         <div class="card">
-            <h2>Total des Rendez-vous</h2>
+            <h2><i data-lucide="microscope"></i> Analyses Récentes</h2>
             <p class="number">197</p>
-            <span class="growth">+10% cette semaine</span>
+            <span class="growth positive"><i data-lucide="trending-up"></i> +10% cette semaine</span>
         </div>
         <div class="card">
-            <h2>Revenu Total</h2>
-            <p class="number">$7 209.29</p>
-            <span class="growth">+24% cette semaine</span>
+            <h2><i data-lucide="activity"></i> Diagnostics Positifs</h2>
+            <p class="number">142</p>
+            <span class="growth positive"><i data-lucide="trending-up"></i> +24% cette semaine</span>
         </div>
         <div class="card">
-            <h2>Total des Traitements</h2>
-            <p class="number">234</p>
-            <span class="growth">+11% cette semaine</span>
+            <h2><i data-lucide="bell"></i> Alertes Médicales</h2>
+            <p class="number">3</p>
+            <span class="growth negative"><i data-lucide="trending-down"></i> -1% cette semaine</span>
         </div>
     </section>
-
-    <section class="chart-and-schedule">
+    <section class="chart-and-recent">
         <div class="chart">
-            <h3>Tendances Admissions & Sorties</h3>
-            <canvas id="admissionChart"></canvas>
+            <h3><i data-lucide="line-chart"></i> Tendances des Diagnostics</h3>
+            <canvas id="diagnosticChart"></canvas>
         </div>
-        <div class="doctor-schedule">
-            <h3>Planning des Médecins</h3>
-            <ul class="availability">
-                <li>Disponibles : 72</li>
-                <li>Indisponibles : 24</li>
-                <li>Congés : 16</li>
-            </ul>
-            <ul class="doctor-list">
-                <li>Omar Bergson <span class="status available">Disponible</span></li>
-                <li>Wilson Dias <span class="status unavailable">Indisponible</span></li>
-                <li>Arlene Cooper <span class="status available">Disponible</span></li>
+        <div class="recent-analyses">
+            <h3><i data-lucide="history"></i> Analyses Récentes</h3>
+            <ul>
+                <li> 28-Nov-2024 : <b>Paludisme</b> (Confiance : 98%) - <span class="status positive"><i data-lucide="check"></i> Positif</span></li>
+                <li> 27-Nov-2024 : <b>Anémie</b> (Confiance : 92%) - <span class="status negative"><i data-lucide="alert-circle"></i> Alerte</span></li>
+                <li> 27-Nov-2024 : <b>Normal</b> (Confiance : 99%) - <span class="status normal"><i data-lucide="smile"></i> Normal</span></li>
             </ul>
         </div>
     </section>
-
     <section class="patient-list">
-        <h3>Liste des Patients</h3>
+        <h3> Derniers Patients</h3>
         <table>
             <thead>
                 <tr>
-                    <th>ID Patient</th>
-                    <th>Nom</th>
-                    <th>Genre</th>
-                    <th>Âge</th>
-                    <th>Date</th>
-                    <th>Département</th>
-                    <th>Diagnostic Principal</th>
+                    <th> ID</th>
+                    <th> Nom</th>
+                    <th> Genre</th>
+                    <th> Âge</th>
+                    <th> Date</th>
+                    <th> Diagnostic</th>
+                    <th> Confiance</th>
                 </tr>
             </thead>
             <tbody>
@@ -110,8 +83,8 @@
                     <td>Homme</td>
                     <td>27 ans</td>
                     <td>28-Nov-2024</td>
-                    <td>Chirurgie Générale</td>
                     <td>Appendicite</td>
+                    <td>98%</td>
                 </tr>
                 <tr>
                     <td>#CO182SD</td>
@@ -119,18 +92,55 @@
                     <td>Femme</td>
                     <td>26 ans</td>
                     <td>28-Nov-2024</td>
-                    <td>Cardiologie</td>
                     <td>Maladie coronaire</td>
+                    <td>92%</td>
                 </tr>
             </tbody>
         </table>
     </section>
 </div>
 
-<script src="{% static 'js/script.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
 <script>
     lucide.createIcons();
+    // Animation sidebar
+    const sidebar = document.getElementById('sidebar');
+    const toggleBtn = document.getElementById('toggleSidebar');
+    toggleBtn.addEventListener('click', () => {
+        sidebar.classList.toggle('collapsed');
+        // Change icon direction
+        const icon = toggleBtn.querySelector('i');
+        icon.setAttribute('data-lucide', sidebar.classList.contains('collapsed') ? 'chevron-right' : 'chevron-left');
+        lucide.createIcons();
+    });
+    // Chart.js example
+    const ctx = document.getElementById('diagnosticChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'],
+            datasets: [{
+                label: 'Diagnostics Positifs',
+                data: [12, 19, 13, 15, 22, 30, 28],
+                borderColor: '#8AC926',
+                backgroundColor: 'rgba(138,201,38,0.1)',
+                tension: 0.4
+            }, {
+                label: 'Alertes',
+                data: [2, 1, 3, 2, 1, 0, 1],
+                borderColor: '#E63946',
+                backgroundColor: 'rgba(230,57,70,0.1)',
+                tension: 0.4
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { position: 'top' },
+            }
+        }
+    });
 </script>
-
 </body>
 </html>

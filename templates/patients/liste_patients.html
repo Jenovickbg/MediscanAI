@@ -1,99 +1,82 @@
-<!-- patients/templates/patients/liste_patients.html -->
-
+{% load static %}
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Liste des Patients</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f9;
-        }
-        .container {
-            width: 80%;
-            margin: 20px auto;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-        table, th, td {
-            border: 1px solid #ddd;
-        }
-        th, td {
-            padding: 10px;
-            text-align: left;
-        }
-        th {
-            background-color: #4CAF50;
-            color: white;
-        }
-        img {
-            width: 100px;
-            height: 100px;
-            object-fit: cover;
-            border-radius: 50%;
-        }
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-        .btn {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            cursor: pointer;
-            text-align: center;
-            display: block;
-            width: 200px;
-            margin: 20px auto;
-        }
-        .btn:hover {
-            background-color: #45a049;
-        }
-    </style>
+    <title>Gestion des Patients - MEDISCAN AI</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
-    <div class="container">
-        <h1>Liste des Patients</h1>
-        <table>
+{% include 'sidebar.html' %}
+<div class="dashboard">
+    <header>
+        <h1><i data-lucide="users"></i> Gestion des Patients</h1>
+        <button class="button-primary" id="openAddPatientModal"><i data-lucide="user-plus"></i> Ajouter un patient</button>
+    </header>
+    <section class="patient-table-section">
+        <input type="text" id="searchInput" placeholder="Rechercher un patient..." class="search-bar">
+        <table class="patient-table">
             <thead>
                 <tr>
+                    <th>Photo</th>
                     <th>Nom</th>
                     <th>Prénom</th>
-                    <th>Age</th>
                     <th>Sexe</th>
-                    <th>Taille (cm)</th>
+                    <th>Âge</th>
                     <th>Poids (kg)</th>
                     <th>Adresse</th>
                     <th>Téléphone</th>
-                    <th>Photo</th>
+                    <th>Date</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
                 {% for patient in patients %}
                 <tr>
+                    <td><img src="{{ patient.photo.url }}" alt="Photo" class="patient-photo"></td>
                     <td>{{ patient.nom }}</td>
                     <td>{{ patient.prenom }}</td>
-                    <td>{{ patient.age }}</td>
                     <td>{{ patient.get_sexe_display }}</td>
-                    <td>{{ patient.taille }}</td>
+                    <td>{{ patient.age }}</td>
                     <td>{{ patient.poids }}</td>
                     <td>{{ patient.adresse }}</td>
                     <td>{{ patient.telephone }}</td>
-                    <td><img src="{{ patient.photo.url }}" alt="Photo de {{ patient.nom }}"></td>
+                    <td>{{ patient.date_enregistrement|date:'d/m/Y' }}</td>
+                    <td>
+                        <button class="icon-btn" onclick="openEditPatientModal({{ patient.id }})"><i data-lucide="edit"></i></button>
+                        <button class="icon-btn" onclick="openDeletePatientModal({{ patient.id }})"><i data-lucide="trash-2"></i></button>
+                        <button class="icon-btn" onclick="openHistoriqueModal({{ patient.id }})"><i data-lucide="book-open"></i></button>
+                        <button class="icon-btn" onclick="window.location.href='{% url 'diagnostics:upload_analyse_frottis' patient.id %}'" title="Analyser un frottis"><i data-lucide="microscope"></i></button>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
+    </section>
+    <!-- Modal Ajout/Modification Patient -->
+    <div id="patientModal" class="modal"></div>
+    <div id="deleteModal" class="modal"></div>
+    <div id="historiqueModal" class="modal"></div>
+    <div id="addHistoriqueModal" class="modal"></div>
 
-        <a href="{% url 'patients:enregistrer_patient' %}" class="btn">Enregistrer un nouveau patient</a>
-    </div>
+    <div id="modalError" style="display:none;color:red;text-align:center;margin:10px 0;"></div>
+
+    <script src="{% static 'js/patients.js' %}"></script>
+    <script>
+        // Fallback pour afficher les erreurs AJAX dans le modal
+        function showModalError(msg) {
+            var err = document.getElementById('modalError');
+            err.innerText = msg;
+            err.style.display = 'block';
+            setTimeout(() => { err.style.display = 'none'; }, 4000);
+        }
+    </script>
+</div>
+<script>
+    lucide.createIcons();
+    // JS pour ouvrir/fermer les modals et injecter les formulaires dynamiquement (à compléter côté Django/JS)
+</script>
 </body>
-</html>
+</html> 

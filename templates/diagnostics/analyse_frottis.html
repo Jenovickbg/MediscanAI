@@ -1,0 +1,87 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analyse des Frottis Sanguins - MEDISCAN AI</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/diagnostics.css' %}">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+{% include 'sidebar.html' %}
+<div class="dashboard">
+    <header>
+        <h1><i data-lucide="microscope"></i> Analyse des Frottis Sanguins</h1>
+        <button class="button-primary" onclick="openSearchPatientModal()">
+            <i data-lucide="user-plus"></i> Nouvelle Analyse
+        </button>
+    </header>
+
+    <section class="search-section">
+        <div class="search-box">
+            <input type="text" id="searchFrottis" placeholder="Rechercher dans les analyses..." class="search-bar">
+        </div>
+    </section>
+
+    <section class="frottis-list-section">
+        <h3><i data-lucide="history"></i> Historique des Analyses</h3>
+        {% if frottis_list %}
+        <div class="frottis-grid">
+            {% for frottis in frottis_list %}
+            <div class="frottis-card">
+                <div class="frottis-image">
+                    <img src="{{ frottis.image.url }}" alt="Frottis sanguin">
+                </div>
+                <div class="frottis-info">
+                    <h4>{{ frottis.patient.nom }} {{ frottis.patient.prenom }}</h4>
+                    <p class="diagnostic {{ frottis.diagnostic|lower }}">{{ frottis.diagnostic }}</p>
+                    <p class="confiance">Confiance: {{ frottis.confiance }}%</p>
+                    <p class="date">{{ frottis.uploaded_at|date:"d/m/Y H:i" }}</p>
+                </div>
+                <div class="frottis-actions">
+                    <button class="icon-btn" onclick="viewFrottisDetail('{{ frottis.id }}')">
+                        <i data-lucide="eye"></i>
+                    </button>
+                    <button class="icon-btn" onclick="viewPatientHistory({{ frottis.patient.id }})">
+                        <i data-lucide="user"></i>
+                    </button>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <i data-lucide="microscope" class="empty-icon"></i>
+            <h3>Aucune analyse effectuée</h3>
+            <p>Commencez par analyser un frottis sanguin pour voir l'historique ici.</p>
+            <button class="button-primary" onclick="openSearchPatientModal()">
+                <i data-lucide="plus"></i> Première Analyse
+            </button>
+        </div>
+        {% endif %}
+    </section>
+</div>
+
+<!-- Modal de recherche de patient -->
+<div id="searchPatientModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeSearchPatientModal()">&times;</span>
+        <h2>Rechercher un Patient</h2>
+        <div class="search-patient-form">
+            <input type="text" id="patientSearch" placeholder="Nom, prénom ou téléphone..." class="search-input">
+            <button onclick="searchPatient()" class="button-primary">Rechercher</button>
+        </div>
+        <div id="patientResults" class="patient-results">
+            <!-- Résultats de recherche ici -->
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'js/diagnostics.js' %}"></script>
+<script>
+    lucide.createIcons();
+</script>
+</body>
+</html> 

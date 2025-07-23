@@ -1,0 +1,207 @@
+/* Styles spécifiques à la page d'accueil (dashboard) */
+
+.dashboard {
+    margin-left: 280px;
+    transition: margin-left 0.3s cubic-bezier(.4,2,.6,1);
+}
+.sidebar.collapsed ~ .dashboard {
+    margin-left: 92px;
+}
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+header h1 {
+    font-size: 2.1rem;
+    font-weight: 700;
+    color: var(--main-blue);
+}
+.header-actions {
+    display: flex;
+    gap: 16px;
+}
+.button-primary {
+    background: var(--main-blue);
+    color: var(--white);
+    border: none;
+    padding: 10px 22px;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.button-primary:hover {
+    background: var(--night-blue);
+}
+.button-secondary {
+    background: var(--mint-green);
+    color: var(--white);
+    border: none;
+    padding: 10px 22px;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.button-secondary:hover {
+    background: #6ea01c;
+}
+.alerts {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+.alert {
+    padding: 14px 24px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.05rem;
+    font-weight: 500;
+}
+.alert-danger {
+    background: var(--soft-red);
+    color: var(--white);
+}
+.alert-success {
+    background: var(--mint-green);
+    color: var(--white);
+}
+.stats {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 32px;
+}
+.card {
+    background: var(--white);
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(42,157,143,0.07);
+    padding: 24px 32px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.card h2 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--night-blue);
+}
+.card .number {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: var(--main-blue);
+}
+.card .growth {
+    font-size: 1rem;
+    font-weight: 500;
+}
+.card .growth.positive {
+    color: var(--mint-green);
+}
+.card .growth.negative {
+    color: var(--soft-red);
+}
+.chart-and-recent {
+    display: flex;
+    gap: 32px;
+    margin-bottom: 32px;
+}
+.chart {
+    background: var(--white);
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(42,157,143,0.07);
+    padding: 24px 32px;
+    flex: 2;
+}
+.chart h3 {
+    margin-bottom: 16px;
+    color: var(--main-blue);
+}
+.recent-analyses {
+    background: var(--white);
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(42,157,143,0.07);
+    padding: 24px 32px;
+    flex: 1;
+}
+.recent-analyses h3 {
+    margin-bottom: 16px;
+    color: var(--main-blue);
+}
+.recent-analyses ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.recent-analyses li {
+    margin-bottom: 12px;
+    font-size: 1.05rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.status.positive {
+    color: var(--mint-green);
+    font-weight: 600;
+}
+.status.negative {
+    color: var(--soft-red);
+    font-weight: 600;
+}
+.status.normal {
+    color: var(--main-blue);
+    font-weight: 600;
+}
+.patient-list {
+    background: var(--white);
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(42,157,143,0.07);
+    padding: 24px 32px;
+}
+.patient-list h3 {
+    margin-bottom: 16px;
+    color: var(--main-blue);
+}
+.patient-list table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--white);
+}
+.patient-list th, .patient-list td {
+    padding: 12px 8px;
+    text-align: left;
+    border-bottom: 1px solid var(--light-gray);
+}
+.patient-list th {
+    background: var(--light-gray);
+    color: var(--night-blue);
+    font-weight: 600;
+}
+.patient-list tr:last-child td {
+    border-bottom: none;
+}
+@media (max-width: 1100px) {
+    .dashboard {
+        padding: 24px 8px 24px 8px;
+    }
+    .stats, .chart-and-recent {
+        flex-direction: column;
+    }
+    .chart, .recent-analyses {
+        width: 100%;
+    }
+} 

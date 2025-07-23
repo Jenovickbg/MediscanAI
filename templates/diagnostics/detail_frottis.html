@@ -1,0 +1,100 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Détail Frottis - MEDISCAN AI</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/diagnostics.css' %}">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+{% include 'sidebar.html' %}
+<div class="dashboard">
+    <header>
+        <div>
+            <h1><i data-lucide="file-text"></i> Détail de l'Analyse</h1>
+            <p class="patient-info">{{ frottis.patient.nom }} {{ frottis.patient.prenom }} - {{ frottis.uploaded_at|date:"d/m/Y H:i" }}</p>
+        </div>
+        <div class="header-actions">
+            <button class="button-secondary" onclick="window.location.href='{% url 'diagnostics:historique_patient' frottis.patient.id %}'">
+                <i data-lucide="arrow-left"></i> Retour à l'historique
+            </button>
+            <button class="button-primary" onclick="window.location.href='{% url 'diagnostics:upload_analyse_frottis' frottis.patient.id %}'">
+                <i data-lucide="plus"></i> Nouvelle Analyse
+            </button>
+            <button class="button-success" onclick="window.location.href='{% url 'diagnostics:generate_medical_report' frottis.id %}'">
+                <i data-lucide="file-plus"></i> Générer le rapport médical
+            </button>
+        </div>
+    </header>
+
+    {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <div class="alert {% if message.tags %}{{ message.tags }}{% endif %}">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <div class="detail-container">
+        <div class="image-section">
+            <h3><i data-lucide="image"></i> Image du Frottis</h3>
+            <div class="image-container">
+                <img src="{{ frottis.image.url }}" alt="Frottis sanguin" class="detail-image">
+            </div>
+        </div>
+
+        <div class="analysis-section">
+            <h3><i data-lucide="activity"></i> Résultats de l'Analyse</h3>
+            <div class="analysis-card">
+                <div class="diagnostic-result">
+                    <h4>Diagnostic</h4>
+                    <div class="diagnostic-badge {{ frottis.diagnostic|lower }}">
+                        {{ frottis.diagnostic }}
+                    </div>
+                </div>
+                
+                <div class="confidence-result">
+                    <h4>Niveau de Confiance</h4>
+                    <div class="confidence-bar">
+                        <div class="confidence-fill" style="width: {{ frottis.confiance }}%"></div>
+                        <span class="confidence-text">{{ frottis.confiance }}%</span>
+                    </div>
+                </div>
+
+                <div class="analysis-date">
+                    <h4>Date d'Analyse</h4>
+                    <p>{{ frottis.uploaded_at|date:"d/m/Y à H:i" }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="patient-section">
+            <h3><i data-lucide="user"></i> Informations Patient</h3>
+            <div class="patient-card">
+                <div class="patient-photo">
+                    {% if frottis.patient.photo %}
+                        <img src="{{ frottis.patient.photo.url }}" alt="Photo du patient">
+                    {% else %}
+                        <i data-lucide="user"></i>
+                    {% endif %}
+                </div>
+                <div class="patient-details">
+                    <h4>{{ frottis.patient.nom }} {{ frottis.patient.prenom }}</h4>
+                    <p><strong>Âge:</strong> {{ frottis.patient.age }} ans</p>
+                    <p><strong>Sexe:</strong> {{ frottis.patient.sexe }}</p>
+                    <p><strong>Téléphone:</strong> {{ frottis.patient.telephone }}</p>
+                    <p><strong>Adresse:</strong> {{ frottis.patient.adresse }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    lucide.createIcons();
+</script>
+</body>
+</html> 

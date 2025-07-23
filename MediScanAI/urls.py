@@ -14,19 +14,17 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path,include
-
-
+from django.urls import path, include
 from .views import home  # Importation de la vue
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home, name='home'),  # Route pour la page d'accueil
     path('patients/', include('patients.urls')),
-    path('diagnostics/', include('diagnostics.urls')),  # Inclure les routes de l'application diagnostics
+    path('diagnostics/', include('diagnostics.urls', namespace='diagnostics')),
 ]
 
-from django.conf import settings
-from django.conf.urls.static  import static
-
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

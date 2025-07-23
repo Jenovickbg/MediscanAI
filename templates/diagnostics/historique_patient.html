@@ -1,0 +1,101 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historique Patient - MEDISCAN AI</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/diagnostics.css' %}">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+{% include 'sidebar.html' %}
+<div class="dashboard">
+    <header>
+        <div>
+            <h1><i data-lucide="history"></i> Historique du Patient</h1>
+            <p class="patient-info">{{ patient.nom }} {{ patient.prenom }} ({{ patient.age }} ans, {{ patient.sexe }})</p>
+        </div>
+        <div class="header-actions">
+            <button class="button-primary" onclick="window.location.href='{% url 'diagnostics:upload_analyse_frottis' patient.id %}'">
+                <i data-lucide="plus"></i> Nouvelle Analyse
+            </button>
+            <button class="button-secondary" onclick="window.location.href='{% url 'diagnostics:liste_rapports' patient.id %}'">
+                <i data-lucide="file-text"></i> Voir les rapports
+            </button>
+            <button class="button-secondary" onclick="window.location.href='{% url 'diagnostics:analyse_frottis_sanguins' %}'">
+                <i data-lucide="arrow-left"></i> Retour
+            </button>
+        </div>
+    </header>
+
+    <div class="patient-summary-card">
+        <div class="patient-details">
+            <div class="patient-photo">
+                {% if patient.photo %}
+                    <img src="{{ patient.photo.url }}" alt="Photo du patient">
+                {% else %}
+                    <i data-lucide="user"></i>
+                {% endif %}
+            </div>
+            <div class="patient-info-details">
+                <h3>{{ patient.nom }} {{ patient.prenom }}</h3>
+                <p><strong>Âge:</strong> {{ patient.age }} ans</p>
+                <p><strong>Sexe:</strong> {{ patient.sexe }}</p>
+                <p><strong>Téléphone:</strong> {{ patient.telephone }}</p>
+                <p><strong>Adresse:</strong> {{ patient.adresse }}</p>
+            </div>
+        </div>
+    </div>
+
+    <section class="frottis-history-section">
+        <h3><i data-lucide="microscope"></i> Historique des Analyses ({{ frottis_list.count }})</h3>
+        
+        {% if frottis_list %}
+        <div class="frottis-timeline">
+            {% for frottis in frottis_list %}
+            <div class="frottis-timeline-item">
+                <div class="timeline-date">
+                    <span class="date">{{ frottis.uploaded_at|date:"d/m/Y" }}</span>
+                    <span class="time">{{ frottis.uploaded_at|date:"H:i" }}</span>
+                </div>
+                <div class="timeline-content">
+                    <div class="frottis-card">
+                        <div class="frottis-image">
+                            <img src="{{ frottis.image.url }}" alt="Frottis sanguin">
+                        </div>
+                        <div class="frottis-info">
+                            <div class="diagnostic-badge {{ frottis.diagnostic|lower }}">
+                                {{ frottis.diagnostic }}
+                            </div>
+                            <p class="confiance">Confiance: {{ frottis.confiance }}%</p>
+                            <div class="frottis-actions">
+                                <button class="icon-btn" onclick="window.location.href='{% url 'diagnostics:detail_frottis' frottis.id %}'">
+                                    <i data-lucide="eye"></i> Voir détails
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <i data-lucide="microscope" class="empty-icon"></i>
+            <h3>Aucune analyse effectuée</h3>
+            <p>Ce patient n'a pas encore d'analyses de frottis sanguins.</p>
+            <button class="button-primary" onclick="window.location.href='{% url 'diagnostics:upload_analyse_frottis' patient.id %}'">
+                <i data-lucide="plus"></i> Première Analyse
+            </button>
+        </div>
+        {% endif %}
+    </section>
+</div>
+
+<script>
+    lucide.createIcons();
+</script>
+</body>
+</html> 

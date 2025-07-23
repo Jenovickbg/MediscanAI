@@ -80,11 +80,8 @@ WSGI_APPLICATION = 'MediScanAI.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'djongo',
-        'NAME': 'mediscan_db',  # Nom de ta base de données
-        'CLIENT': {
-            'host': 'mongodb://localhost:27017/',  # Assure-toi que MongoDB est bien lancé
-        }
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 

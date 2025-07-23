@@ -1,0 +1,73 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tous les Rapports Médicaux - MEDISCAN AI</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/diagnostics.css' %}">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+{% include 'sidebar.html' %}
+<div class="dashboard">
+    <header>
+        <h1><i data-lucide="file-text"></i> Tous les Rapports Médicaux</h1>
+    </header>
+    <section class="rapports-section">
+        <h3><i data-lucide="file-text"></i> Liste de tous les rapports ({{ rapports.count }})</h3>
+        {% if rapports %}
+        <table class="patient-table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Patient</th>
+                    <th>Diagnostic</th>
+                    <th>Confiance</th>
+                    <th>Analyse liée</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for rapport in rapports %}
+                <tr>
+                    <td>{{ rapport.created_at|date:"d/m/Y H:i" }}</td>
+                    <td>{{ rapport.patient.id }}</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>
+                        <a href="{% url 'diagnostics:detail_frottis' rapport.frottis.id %}" class="icon-btn" title="Voir l'analyse">
+                            <i data-lucide="activity"></i>
+                        </a>
+                    </td>
+                    <td>
+                        {% if rapport.pdf_path %}
+                        <a href="/media/{{ rapport.pdf_path }}" target="_blank" class="icon-btn" title="Voir le PDF">
+                            <i data-lucide="eye"></i>
+                        </a>
+                        <a href="/media/{{ rapport.pdf_path }}" download class="icon-btn" title="Télécharger le PDF">
+                            <i data-lucide="download"></i>
+                        </a>
+                        {% else %}
+                        <span class="icon-btn" title="Aucun PDF"><i data-lucide="alert-circle"></i></span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="empty-state">
+            <i data-lucide="file-text" class="empty-icon"></i>
+            <h3>Aucun rapport généré</h3>
+            <p>Générez un rapport à partir d'une analyse pour le voir ici.</p>
+        </div>
+        {% endif %}
+    </section>
+</div>
+<script>
+    lucide.createIcons();
+</script>
+</body>
+</html> 

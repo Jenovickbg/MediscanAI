@@ -1,0 +1,15 @@
+<div class="modal-content">
+    <span class="close" onclick="closeHistoriqueModal()">&times;</span>
+    <h2>Historique Médical de {{ patient.nom }} {{ patient.prenom }}</h2>
+    <ul class="historique-list">
+        {% for h in historiques %}
+        <li>
+            <b>{{ h.date|date:'d/m/Y' }}</b> — <span>{{ h.type_acte }}</span><br>
+            <small>{{ h.description }}</small>
+        </li>
+        {% empty %}
+        <li>Aucun acte médical enregistré.</li>
+        {% endfor %}
+    </ul>
+    <button class="button-primary" onclick="openAddHistoriqueModal({{ patient.id }})"><i data-lucide="plus"></i> Ajouter un acte</button>
+</div> 

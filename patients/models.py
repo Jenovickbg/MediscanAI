@@ -18,3 +18,13 @@ class Patient(models.Model):
     def __str__(self):
         return f"{self.nom} {self.prenom} ({self.age} ans)"
 
+
+class HistoriqueMedical(models.Model):
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='historiques')
+    date = models.DateField(auto_now_add=True)
+    type_acte = models.CharField(max_length=100)
+    description = models.TextField()
+
+    def __str__(self):
+        return f"{self.type_acte} - {self.date} ({self.patient.nom} {self.patient.prenom})"
+

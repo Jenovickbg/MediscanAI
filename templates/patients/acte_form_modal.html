@@ -1,0 +1,9 @@
+<div class="modal-content">
+    <span class="close" onclick="closeAddHistoriqueModal()">&times;</span>
+    <h2>Ajouter un acte médical pour {{ patient.nom }} {{ patient.prenom }}</h2>
+    <form id="historiqueForm" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="button-primary">Ajouter</button>
+    </form>
+</div> 

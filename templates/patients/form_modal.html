@@ -1,0 +1,9 @@
+<div class="modal-content">
+    <span class="close" onclick="closePatientModal()">&times;</span>
+    <h2>{% if action == 'ajouter' %}Ajouter un patient{% else %}Modifier le patient{% endif %}</h2>
+    <form id="patientForm" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="button-primary">{% if action == 'ajouter' %}Ajouter{% else %}Enregistrer{% endif %}</button>
+    </form>
+</div> 

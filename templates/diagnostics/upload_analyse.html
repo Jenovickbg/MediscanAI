@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload et Analyse - MEDISCAN AI</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/diagnostics.css' %}">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+{% include 'sidebar.html' %}
+<div class="dashboard">
+    <header>
+        <div>
+            <h1><i data-lucide="upload"></i> Upload et Analyse</h1>
+            <p class="patient-info">Patient: {{ patient.nom }} {{ patient.prenom }} ({{ patient.age }} ans, {{ patient.sexe }})</p>
+        </div>
+        <button class="button-secondary" onclick="window.location.href='/diagnostics/'">
+            <i data-lucide="arrow-left"></i> Retour
+        </button>
+    </header>
+
+    <div class="upload-container">
+        <div class="upload-section">
+            <h3><i data-lucide="image"></i> Sélectionner l'image du frottis</h3>
+            <form id="uploadForm" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="file-upload-area">
+                    <input type="file" id="imageInput" name="image" accept="image/*" required>
+                    <div class="upload-placeholder">
+                        <i data-lucide="upload-cloud"></i>
+                        <p>Cliquez ou glissez une image ici</p>
+                        <span>Formats acceptés: JPG, PNG, GIF</span>
+                    </div>
+                </div>
+                <button type="submit" class="button-primary" id="analyzeBtn">
+                    <i data-lucide="play"></i> Analyser le frottis
+                </button>
+            </form>
+        </div>
+
+        <div class="results-section" id="resultsSection" style="display: none;">
+            <h3><i data-lucide="activity"></i> Résultats de l'analyse</h3>
+            <div class="results-card">
+                <div class="result-header">
+                    <h4>Diagnostic</h4>
+                    <span class="confidence-badge" id="confidenceBadge"></span>
+                </div>
+                <div class="diagnostic-result" id="diagnosticResult"></div>
+                <div class="patient-summary">
+                    <p><strong>Patient:</strong> {{ patient.nom }} {{ patient.prenom }}</p>
+                    <p><strong>Date d'analyse:</strong> <span id="analysisDate"></span></p>
+                </div>
+                <div class="result-actions">
+                    <button class="button-primary" onclick="saveResults()">
+                        <i data-lucide="save"></i> Sauvegarder
+                    </button>
+                    <button class="button-secondary" onclick="newAnalysis()">
+                        <i data-lucide="plus"></i> Nouvelle analyse
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'js/upload_analyse.js' %}"></script>
+<script>
+    lucide.createIcons();
+</script>
+</body>
+</html> 

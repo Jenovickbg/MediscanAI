@@ -1,0 +1,27 @@
+{% load static %}
+<div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+        <div class="logo">MEDISCAN AI</div>
+        <button class="toggle-btn" id="toggleSidebar" aria-label="Plier/Déplier la barre">
+            <i data-lucide="chevron-left"></i>
+        </button>
+    </div>
+    <ul class="menu">
+        <li class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}"><a href="/"> <i data-lucide="layout-dashboard"></i> <span class="label">Tableau de Bord</span></a></li>
+        <li class="{% if request.resolver_match.url_name == 'liste_patients' %}active{% endif %}"><a href="{% url 'patients:liste_patients' %}"><i data-lucide="users"></i> <span class="label">Gestion des Patients</span></a></li>
+        <li class="{% if 'diagnostics/rapports/' in request.path and not request.resolver_match.kwargs.patient_id %}active{% endif %}"><a href="{% url 'diagnostics:tous_les_rapports' %}"><i data-lucide="file-text"></i> <span class="label">Rapports Médicaux</span></a></li>
+        <li class="{% if request.resolver_match.url_name == 'analyse_frottis_sanguins' %}active{% endif %}"><a href="{% url 'diagnostics:analyse_frottis_sanguins' %}"><i data-lucide="microscope"></i> <span class="label">Analyse des Frottis</span></a></li>
+        <li><a href="#"><i data-lucide="user-check"></i> <span class="label">Médecins/Laborantin</span></a></li>
+        <li><a href="#"><i data-lucide="bar-chart-2"></i> <span class="label">Statistiques</span></a></li>
+        <li><a href="#"><i data-lucide="settings"></i> <span class="label">Paramètres</span></a></li>
+    </ul>
+    <div class="bottom-links">
+        <a href="#"><i data-lucide="help-circle"></i> <span class="label">Centre d'aide</span></a>
+        <a href="#"><i data-lucide="message-square"></i> <span class="label">Assistance</span></a>
+    </div>
+    <div class="user-profile">
+        <img src="{% static 'images/profile.jpg' %}" alt="Logo">
+        <p>Jenovic Kbg</p>
+        <span>jenovickbg5@gmail.com</span>
+    </div>
+</div> 

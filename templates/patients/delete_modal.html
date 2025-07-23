@@ -1,0 +1,10 @@
+<div class="modal-content">
+    <span class="close" onclick="closeDeleteModal()">&times;</span>
+    <h2>Supprimer le patient</h2>
+    <p>Êtes-vous sûr de vouloir supprimer {{ patient.nom }} {{ patient.prenom }} ?</p>
+    <form id="deleteForm" method="post">
+        {% csrf_token %}
+        <button type="submit" class="button-danger">Supprimer</button>
+        <button type="button" onclick="closeDeleteModal()">Annuler</button>
+    </form>
+</div> 

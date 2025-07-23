@@ -1,0 +1,17 @@
+{% if patients %}
+    {% for patient in patients %}
+    <div class="patient-result-item">
+        <div class="patient-info">
+            <h4>{{ patient.nom }} {{ patient.prenom }}</h4>
+            <p>{{ patient.telephone }} • {{ patient.age }} ans • {{ patient.sexe }}</p>
+        </div>
+        <button class="select-patient-btn" onclick="selectPatient({{ patient.id }}, '{{ patient.nom }} {{ patient.prenom }}')">
+            Sélectionner
+        </button>
+    </div>
+    {% endfor %}
+{% else %}
+    {% if query %}
+        <p>Aucun patient trouvé pour "{{ query }}"</p>
+    {% endif %}
+{% endif %} 

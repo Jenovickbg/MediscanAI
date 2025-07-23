@@ -1,0 +1,162 @@
+/* Styles spécifiques à la gestion des patients */
+
+.patient-table-section {
+    background: var(--white);
+    border-radius: 18px;
+    box-shadow: 0 2px 8px rgba(42,157,143,0.07);
+    padding: 24px 32px;
+    margin-bottom: 32px;
+}
+.search-bar {
+    width: 100%;
+    padding: 10px 16px;
+    border-radius: 8px;
+    border: 1px solid var(--light-gray);
+    margin-bottom: 18px;
+    font-size: 1rem;
+    outline: none;
+    background: var(--light-gray);
+    color: var(--night-blue);
+}
+.patient-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: var(--white);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(42,157,143,0.04);
+}
+.patient-table th, .patient-table td {
+    padding: 12px 10px;
+    text-align: left;
+    font-size: 1rem;
+}
+.patient-table th {
+    background: var(--light-gray);
+    color: var(--night-blue);
+    font-weight: 600;
+    border-bottom: 2px solid var(--main-blue);
+}
+.patient-table tr {
+    transition: background 0.2s;
+}
+.patient-table tbody tr:hover {
+    background: var(--light-gray);
+}
+.patient-table td {
+    border-bottom: 1px solid var(--light-gray);
+}
+.patient-table tr:last-child td {
+    border-bottom: none;
+}
+.patient-photo {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--main-blue);
+}
+.icon-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-right: 6px;
+    color: var(--main-blue);
+    font-size: 1.2rem;
+    padding: 4px;
+    border-radius: 6px;
+    transition: background 0.2s, color 0.2s;
+}
+.icon-btn:hover {
+    background: var(--light-gray);
+    color: var(--mint-green);
+}
+/* --- MODALS --- */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: auto;
+    background: rgba(42, 157, 143, 0.18);
+    backdrop-filter: blur(2px);
+    transition: background 0.3s;
+}
+.modal-content {
+    background: var(--white);
+    margin: 60px auto;
+    border-radius: 18px;
+    padding: 32px 32px 24px 32px;
+    box-shadow: 0 8px 32px rgba(42,157,143,0.18);
+    max-width: 420px;
+    min-width: 320px;
+    position: relative;
+    animation: modalIn 0.25s cubic-bezier(.4,2,.6,1);
+}
+@keyframes modalIn {
+    from { transform: translateY(-40px) scale(0.98); opacity: 0; }
+    to   { transform: translateY(0) scale(1); opacity: 1; }
+}
+.close {
+    position: absolute;
+    top: 18px;
+    right: 22px;
+    font-size: 1.7rem;
+    color: var(--main-blue);
+    cursor: pointer;
+    font-weight: bold;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+    z-index: 10;
+}
+.close:hover {
+    opacity: 1;
+}
+.button-danger {
+    background: var(--soft-red);
+    color: var(--white);
+    border: none;
+    padding: 10px 22px;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-right: 10px;
+    transition: background 0.2s;
+}
+.button-danger:hover {
+    background: #b92d3a;
+}
+.historique-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 18px 0;
+}
+.historique-list li {
+    background: var(--light-gray);
+    border-radius: 8px;
+    margin-bottom: 10px;
+    padding: 10px 14px;
+    font-size: 1rem;
+    color: var(--night-blue);
+}
+.sidebar .menu a, .sidebar .bottom-links a {
+    text-decoration: none !important;
+    color: inherit !important;
+    outline: none;
+    box-shadow: none;
+}
+@media (max-width: 900px) {
+    .patient-table-section {
+        padding: 10px 2px;
+    }
+    .modal-content {
+        min-width: 90vw;
+        max-width: 98vw;
+        padding: 18px 6vw 18px 6vw;
+    }
+} 

@@ -1,0 +1,781 @@
+/* Diagnostics CSS */
+
+/* Page principale */
+.dashboard {
+    padding: 2rem;
+    margin-left: 280px;
+    transition: margin-left 0.3s ease;
+}
+
+.dashboard.collapsed {
+    margin-left: 80px;
+}
+
+/* Header */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #e1e5e9;
+}
+
+header h1 {
+    color: #2c3e50;
+    font-size: 2rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Section de recherche */
+.search-section {
+    margin-bottom: 2rem;
+}
+
+.search-box {
+    max-width: 500px;
+}
+
+.search-bar {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #e1e5e9;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.search-bar:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+/* Section liste des frottis */
+.frottis-list-section h3 {
+    color: #2c3e50;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Grille des frottis */
+.frottis-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+/* Cartes de frottis */
+.frottis-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid #e1e5e9;
+}
+
+.frottis-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.frottis-image {
+    height: 200px;
+    overflow: hidden;
+    background: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.frottis-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.frottis-info {
+    padding: 1rem;
+}
+
+.frottis-info h4 {
+    color: #2c3e50;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.diagnostic {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.diagnostic.paludisme {
+    background: #ff6b6b;
+    color: white;
+}
+
+.diagnostic.anémie {
+    background: #feca57;
+    color: #2c3e50;
+}
+
+.diagnostic.leucémie {
+    background: #ff9ff3;
+    color: white;
+}
+
+.diagnostic.normal {
+    background: #48dbfb;
+    color: white;
+}
+
+.diagnostic.infection-bactérienne {
+    background: #ff9f43;
+    color: white;
+}
+
+.confiance {
+    color: #7f8c8d;
+    font-size: 0.9rem;
+    margin-bottom: 0.25rem;
+}
+
+.date {
+    color: #95a5a6;
+    font-size: 0.8rem;
+}
+
+.frottis-actions {
+    padding: 0 1rem 1rem;
+    display: flex;
+    gap: 0.5rem;
+}
+
+.icon-btn {
+    background: #f8f9fa;
+    border: 1px solid #e1e5e9;
+    border-radius: 6px;
+    padding: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-btn:hover {
+    background: #3498db;
+    color: white;
+    border-color: #3498db;
+}
+
+/* État vide */
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: white;
+    border-radius: 12px;
+    border: 2px dashed #e1e5e9;
+}
+
+.empty-icon {
+    width: 64px;
+    height: 64px;
+    color: #bdc3c7;
+    margin-bottom: 1rem;
+}
+
+.empty-state h3 {
+    color: #2c3e50;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.empty-state p {
+    color: #7f8c8d;
+    margin-bottom: 2rem;
+}
+
+/* Modal de recherche patient */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+}
+
+.modal-content {
+    background-color: white;
+    margin: 5% auto;
+    padding: 2rem;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 600px;
+    position: relative;
+    animation: modalSlideIn 0.3s ease;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.close {
+    position: absolute;
+    right: 1.5rem;
+    top: 1.5rem;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #7f8c8d;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close:hover {
+    color: #e74c3c;
+}
+
+.modal-content h2 {
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+}
+
+.search-patient-form {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.search-input {
+    flex: 1;
+    padding: 12px 16px;
+    border: 2px solid #e1e5e9;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+.patient-results {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.patient-result-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border: 1px solid #e1e5e9;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    transition: background-color 0.3s ease;
+}
+
+.patient-result-item:hover {
+    background-color: #f8f9fa;
+}
+
+.patient-info h4 {
+    color: #2c3e50;
+    margin-bottom: 0.25rem;
+}
+
+.patient-info p {
+    color: #7f8c8d;
+    font-size: 0.9rem;
+}
+
+.select-patient-btn {
+    background: #3498db;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.select-patient-btn:hover {
+    background: #2980b9;
+}
+
+/* Upload et Analyse */
+.upload-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.upload-section, .results-section {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e1e5e9;
+}
+
+.upload-section h3, .results-section h3 {
+    color: #2c3e50;
+    font-size: 1.3rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.file-upload-area {
+    border: 2px dashed #e1e5e9;
+    border-radius: 12px;
+    padding: 3rem 2rem;
+    text-align: center;
+    position: relative;
+    transition: all 0.3s ease;
+    margin-bottom: 1.5rem;
+}
+
+.file-upload-area:hover {
+    border-color: #3498db;
+    background-color: #f8f9fa;
+}
+
+.file-upload-area.drag-over {
+    border-color: #3498db;
+    background-color: #ebf3fd;
+}
+
+.file-upload-area input[type="file"] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.upload-placeholder {
+    pointer-events: none;
+}
+
+.upload-placeholder i {
+    width: 48px;
+    height: 48px;
+    color: #bdc3c7;
+    margin-bottom: 1rem;
+}
+
+.upload-placeholder p {
+    color: #2c3e50;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+.upload-placeholder span {
+    color: #7f8c8d;
+    font-size: 0.9rem;
+}
+
+.file-selected i {
+    color: #27ae60;
+}
+
+.file-selected p {
+    color: #27ae60;
+    font-weight: 600;
+}
+
+/* Résultats */
+.results-card {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 1.5rem;
+}
+
+.result-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.result-header h4 {
+    color: #2c3e50;
+    font-size: 1.2rem;
+    margin: 0;
+}
+
+.confidence-badge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.confidence-badge.high {
+    background: #27ae60;
+    color: white;
+}
+
+.confidence-badge.medium {
+    background: #f39c12;
+    color: white;
+}
+
+.confidence-badge.low {
+    background: #e74c3c;
+    color: white;
+}
+
+.diagnostic-result {
+    margin-bottom: 1.5rem;
+}
+
+.patient-summary {
+    background: white;
+    border-radius: 6px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.patient-summary p {
+    margin: 0.5rem 0;
+    color: #2c3e50;
+}
+
+.result-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.patient-info {
+    color: #7f8c8d;
+    font-size: 1rem;
+    margin-top: 0.5rem;
+}
+
+/* Boutons */
+.button-secondary {
+    background: #95a5a6;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.button-secondary:hover {
+    background: #7f8c8d;
+}
+
+/* Animation de chargement */
+.spinning {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .dashboard {
+        margin-left: 0;
+        padding: 1rem;
+    }
+    
+    header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+    
+    .frottis-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .search-patient-form {
+        flex-direction: column;
+    }
+    
+    .modal-content {
+        margin: 10% auto;
+        width: 95%;
+        padding: 1.5rem;
+    }
+    
+    .upload-container {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .result-actions {
+        flex-direction: column;
+    }
+}
+
+/* Historique Patient */
+.patient-summary-card {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e1e5e9;
+}
+
+.patient-details {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.patient-photo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.patient-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.patient-photo i {
+    width: 40px;
+    height: 40px;
+    color: #bdc3c7;
+}
+
+.patient-info-details h3 {
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+}
+
+.patient-info-details p {
+    color: #7f8c8d;
+    margin: 0.25rem 0;
+}
+
+.frottis-history-section h3 {
+    color: #2c3e50;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.frottis-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.frottis-timeline-item {
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+}
+
+.timeline-date {
+    min-width: 80px;
+    text-align: center;
+    padding: 0.5rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e1e5e9;
+}
+
+.timeline-date .date {
+    display: block;
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 0.9rem;
+}
+
+.timeline-date .time {
+    display: block;
+    color: #7f8c8d;
+    font-size: 0.8rem;
+}
+
+.timeline-content {
+    flex: 1;
+}
+
+.diagnostic-badge {
+    display: inline-block;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+/* Détail Frottis */
+.detail-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.image-section, .analysis-section, .patient-section {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e1e5e9;
+}
+
+.image-section h3, .analysis-section h3, .patient-section h3 {
+    color: #2c3e50;
+    font-size: 1.3rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.image-container {
+    text-align: center;
+}
+
+.detail-image {
+    max-width: 100%;
+    max-height: 400px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.analysis-card {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 1.5rem;
+}
+
+.diagnostic-result, .confidence-result, .analysis-date {
+    margin-bottom: 1.5rem;
+}
+
+.diagnostic-result h4, .confidence-result h4, .analysis-date h4 {
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+}
+
+.confidence-bar {
+    background: #e1e5e9;
+    border-radius: 20px;
+    height: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.confidence-fill {
+    background: linear-gradient(90deg, #27ae60, #2ecc71);
+    height: 100%;
+    border-radius: 20px;
+    transition: width 0.3s ease;
+}
+
+.confidence-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.patient-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.patient-card .patient-photo {
+    width: 60px;
+    height: 60px;
+}
+
+.patient-details h4 {
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+}
+
+.patient-details p {
+    color: #7f8c8d;
+    margin: 0.25rem 0;
+    font-size: 0.9rem;
+}
+
+/* Responsive pour les détails */
+@media (max-width: 768px) {
+    .detail-container {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .patient-details {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+    
+    .frottis-timeline-item {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .timeline-date {
+        min-width: auto;
+        align-self: flex-start;
+    }
+} 

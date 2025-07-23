@@ -4,4 +4,4 @@ from .models import BloodSmear
 class BloodSmearForm(forms.ModelForm):
     class Meta:
         model = BloodSmear
-        fields = ['patient_id', 'image']
+        fields = ['image']  # On retire 'patient' car il sera assigné dans la vue
