@@ -18,47 +18,44 @@
             <a href="{% url 'patients:liste_patients' %}" class="button-secondary"><i data-lucide="user-plus"></i> Nouveau Patient</a>
         </div>
     </header>
-    <section class="alerts">
-        <div class="alert alert-danger">
-            <i data-lucide="alert-triangle"></i> 2 anomalies détectées aujourd'hui !
-        </div>
-        <div class="alert alert-success">
-            <i data-lucide="check-circle"></i> Aucun cas critique en attente.
-        </div>
-    </section>
     <section class="stats">
         <div class="card">
             <h2><i data-lucide="users"></i> Total Patients</h2>
-            <p class="number">1072</p>
-            <span class="growth positive"><i data-lucide="trending-up"></i> +12% cette semaine</span>
+            <p class="number">{{ total_patients }}</p>
         </div>
         <div class="card">
-            <h2><i data-lucide="microscope"></i> Analyses Récentes</h2>
-            <p class="number">197</p>
-            <span class="growth positive"><i data-lucide="trending-up"></i> +10% cette semaine</span>
+            <h2><i data-lucide="microscope"></i> Analyses Réalisées</h2>
+            <p class="number">{{ total_analyses }}</p>
         </div>
         <div class="card">
             <h2><i data-lucide="activity"></i> Diagnostics Positifs</h2>
-            <p class="number">142</p>
-            <span class="growth positive"><i data-lucide="trending-up"></i> +24% cette semaine</span>
+            <p class="number">{{ total_positifs }}</p>
         </div>
         <div class="card">
-            <h2><i data-lucide="bell"></i> Alertes Médicales</h2>
-            <p class="number">3</p>
-            <span class="growth negative"><i data-lucide="trending-down"></i> -1% cette semaine</span>
+            <h2><i data-lucide="file-text"></i> Rapports PDF</h2>
+            <p class="number">{{ total_rapports }}</p>
         </div>
     </section>
     <section class="chart-and-recent">
         <div class="chart">
-            <h3><i data-lucide="line-chart"></i> Tendances des Diagnostics</h3>
+            <h3><i data-lucide="line-chart"></i> Tendances des Diagnostics Positifs (7 derniers jours)</h3>
             <canvas id="diagnosticChart"></canvas>
         </div>
         <div class="recent-analyses">
             <h3><i data-lucide="history"></i> Analyses Récentes</h3>
             <ul>
-                <li> 28-Nov-2024 : <b>Paludisme</b> (Confiance : 98%) - <span class="status positive"><i data-lucide="check"></i> Positif</span></li>
-                <li> 27-Nov-2024 : <b>Anémie</b> (Confiance : 92%) - <span class="status negative"><i data-lucide="alert-circle"></i> Alerte</span></li>
-                <li> 27-Nov-2024 : <b>Normal</b> (Confiance : 99%) - <span class="status normal"><i data-lucide="smile"></i> Normal</span></li>
+                {% for analyse in recent_analyses %}
+                <li>
+                    {{ analyse.uploaded_at|date:"d-M-Y" }} :
+                    <b>{{ analyse.diagnostic }}</b> (Confiance : {{ analyse.confiance }}%) -
+                    <span class="status {% if analyse.diagnostic|lower == 'normal' %}normal{% else %}positive{% endif %}">
+                        <i data-lucide="{% if analyse.diagnostic|lower == 'normal' %}smile{% else %}check{% endif %}"></i>
+                        {% if analyse.diagnostic|lower == 'normal' %}Normal{% else %}Positif{% endif %}
+                    </span>
+                </li>
+                {% empty %}
+                <li>Aucune analyse récente.</li>
+                {% endfor %}
             </ul>
         </div>
     </section>
@@ -67,34 +64,37 @@
         <table>
             <thead>
                 <tr>
-                    <th> ID</th>
-                    <th> Nom</th>
-                    <th> Genre</th>
-                    <th> Âge</th>
-                    <th> Date</th>
-                    <th> Diagnostic</th>
-                    <th> Confiance</th>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Genre</th>
+                    <th>Âge</th>
+                    <th>Date</th>
+                    <th>Diagnostic</th>
+                    <th>Confiance</th>
                 </tr>
             </thead>
             <tbody>
+                {% for patient in recent_patients %}
                 <tr>
-                    <td>#GS234FS</td>
-                    <td>Marley Franci</td>
-                    <td>Homme</td>
-                    <td>27 ans</td>
-                    <td>28-Nov-2024</td>
-                    <td>Appendicite</td>
-                    <td>98%</td>
+                    <td>{{ patient.nom }}</td>
+                    <td>{{ patient.prenom }}</td>
+                    <td>{% if patient.sexe == 'M' %}Homme{% else %}Femme{% endif %}</td>
+                    <td>{{ patient.age }} ans</td>
+                    <td>{{ patient.date_enregistrement|date:"d-M-Y" }}</td>
+                    <td>
+                        {% with frottis=patient.frottis.all|first %}
+                            {% if frottis %}{{ frottis.diagnostic }}{% else %}-{% endif %}
+                        {% endwith %}
+                    </td>
+                    <td>
+                        {% with frottis=patient.frottis.all|first %}
+                            {% if frottis %}{{ frottis.confiance }}%{% else %}-{% endif %}
+                        {% endwith %}
+                    </td>
                 </tr>
-                <tr>
-                    <td>#CO182SD</td>
-                    <td>Ashlynn Torff</td>
-                    <td>Femme</td>
-                    <td>26 ans</td>
-                    <td>28-Nov-2024</td>
-                    <td>Maladie coronaire</td>
-                    <td>92%</td>
-                </tr>
+                {% empty %}
+                <tr><td colspan="7">Aucun patient récent.</td></tr>
+                {% endfor %}
             </tbody>
         </table>
     </section>
@@ -114,30 +114,23 @@
         icon.setAttribute('data-lucide', sidebar.classList.contains('collapsed') ? 'chevron-right' : 'chevron-left');
         lucide.createIcons();
     });
-    // Chart.js example
+    // Chart.js dynamique
     const ctx = document.getElementById('diagnosticChart').getContext('2d');
     new Chart(ctx, {
         type: 'line',
         data: {
-            labels: ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'],
+            labels: {{ chart_labels|safe }},
             datasets: [{
                 label: 'Diagnostics Positifs',
-                data: [12, 19, 13, 15, 22, 30, 28],
-                borderColor: '#8AC926',
-                backgroundColor: 'rgba(138,201,38,0.1)',
-                tension: 0.4
-            }, {
-                label: 'Alertes',
-                data: [2, 1, 3, 2, 1, 0, 1],
-                borderColor: '#E63946',
-                backgroundColor: 'rgba(230,57,70,0.1)',
+                data: {{ chart_data|safe }},
+                borderColor: '#2A9D8F',
+                backgroundColor: 'rgba(42,157,143,0.10)',
                 tension: 0.4
             }]
         },
         options: {
-            responsive: true,
             plugins: {
-                legend: { position: 'top' },
+                legend: { display: false },
             }
         }
     });

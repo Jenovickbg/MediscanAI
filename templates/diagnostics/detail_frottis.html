@@ -24,7 +24,7 @@
             <button class="button-primary" onclick="window.location.href='{% url 'diagnostics:upload_analyse_frottis' frottis.patient.id %}'">
                 <i data-lucide="plus"></i> Nouvelle Analyse
             </button>
-            <button class="button-success" onclick="window.location.href='{% url 'diagnostics:generate_medical_report' frottis.id %}'">
+            <button class="button-success" id="openRapportModal" type="button">
                 <i data-lucide="file-plus"></i> Générer le rapport médical
             </button>
         </div>
@@ -93,8 +93,52 @@
     </div>
 </div>
 
+<!-- Modal pour explication et recommandations -->
+<div id="rapportModal" class="modal" style="display:none; position:fixed; z-index:1000; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.4);">
+  <div class="modal-content" style="background:#fff; margin:10vh auto; padding:30px; border-radius:8px; max-width:400px; position:relative;">
+    <span id="closeRapportModal" style="position:absolute; top:10px; right:20px; font-size:24px; cursor:pointer;">&times;</span>
+    <h2>Informations du rapport</h2>
+    <form id="rapportForm">
+      <label for="explication">Explication médicale :</label>
+      <textarea id="explication" name="explication" rows="3" required style="width:100%; margin-bottom:10px;"></textarea>
+      <label for="recommandation">Recommandations :</label>
+      <textarea id="recommandation" name="recommandation" rows="2" required style="width:100%; margin-bottom:10px;"></textarea>
+      <button type="submit" class="button-success" style="width:100%;">Générer le PDF</button>
+    </form>
+  </div>
+</div>
+
 <script>
     lucide.createIcons();
+    // Modal logic
+    const openBtn = document.getElementById('openRapportModal');
+    const modal = document.getElementById('rapportModal');
+    const closeBtn = document.getElementById('closeRapportModal');
+    openBtn.onclick = () => { modal.style.display = 'block'; };
+    closeBtn.onclick = () => { modal.style.display = 'none'; };
+    window.onclick = (e) => { if (e.target === modal) modal.style.display = 'none'; };
+    // Soumission AJAX du formulaire
+    document.getElementById('rapportForm').onsubmit = function(e) {
+        e.preventDefault();
+        const explication = document.getElementById('explication').value;
+        const recommandation = document.getElementById('recommandation').value;
+        fetch("{% url 'diagnostics:generate_medical_report' frottis.id %}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}',
+            },
+            body: JSON.stringify({explication, recommandation})
+        })
+        .then(response => response.json())
+        .then(data => {
+            if(data.success){
+                window.location.reload();
+            }else{
+                alert(data.error || 'Erreur lors de la génération du rapport.');
+            }
+        });
+    };
 </script>
 </body>
 </html> 
